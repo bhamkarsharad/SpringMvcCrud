@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.clc.SHCrud.*"></context:component-scan>
+	<context:annotation-config />
+
+	<bean id="database" class="org.apache.commons.dbcp.BasicDataSource">
+	<!-- <bean id="database"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/jdbcdb"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+
+	<bean id="sfactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="database"></property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.clc.SHCrud.Entity.ProductEntity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 
+	USING WITHOUT ANNOTATION
+	===========================
+	
+	<bean id="dao" class="com.clc.SHCrud.Dao.Impl.ProductDaoImpl">
+	<property name="sessionFactory" ref="sfactory"></property>
+	</bean>
+	
+	<bean id="service" class="com.clc.SHCrud.Service.Impl.ProductServiceImpl">
+	<property name="productDao" ref="dao"></property>
+	</bean>
+ -->
+</beans>

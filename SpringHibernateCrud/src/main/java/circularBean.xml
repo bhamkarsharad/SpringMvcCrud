@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.clc.CircularBean"></context:component-scan>
+	<context:annotation-config />
+
+<bean class="com.clc.CircularBean.Address" id="adbean">
+		<property name="emp" ref="ebean"></property>
+	</bean>
+
+	<bean class="com.clc.CircularBean.Emp" id="ebean">
+		<property name="address" ref="adbean"></property>
+	</bean>
+
+
+
+<!-- 
+=========CONSTRUCTOR-ARG IS NOT WORK IN CIRCULAR BEAN ======================
+
+	<bean class="com.clc.CircularBean.Emp" id="ebean"> 
+	<constructor-arg name="address" ref="adbean"></constructor-arg>
+	 </bean>
+		
+		 <bean class="com.clc.CircularBean.Address" id="adbean"> 
+		 <constructor-arg name="emp" ref="ebean"></constructor-arg>
+		  </bean>
+ -->
+	
+<!-- <bean class="com.clc.CircularBean..A" id="abean">
+ 	<constructor-arg name="b" ref="bbean"></constructor-arg>
+ </bean>
+ <bean class="com.clc.CircularBean.B" id="bbean">
+ 	<constructor-arg name="a" ref="abean"></constructor-arg>
+ </bean>
+ -->
+</beans>
